@@ -24,7 +24,8 @@ fi
 # change to the working directory where your code is located
 cd ${PBS_O_WORKDIR}
         
+        
 ### call your executable
-module load structure
+module load structure/2.3.4
 
 structure -K ${PBS_ARRAYID} -i RUNNUMBER -o ${PBS_JOBNAME}
