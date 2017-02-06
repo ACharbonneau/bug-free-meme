@@ -6,11 +6,8 @@
   
 ### nodes:ppn - how many nodes & cores per node (ppn) that you require
 #PBS -l nodes=1:ppn=1
-#PBS -l feature=gbe    
 ### mem: amount of memory that the job will need
-#PBS -l mem=2gb
-##PBS -m abe     
-### you can give your job a name for easier identification
+#PBS -l mem=64gb
 
 #PBS -N notset
 if [ "$PBS_JOBNAME" == "notset" ]
@@ -28,4 +25,4 @@ cd ${PBS_O_WORKDIR}
 ### call your executable
 module load structure/2.3.4
 
-structure -K ${PBS_ARRAYID} -i RUNNUMBER -o ${PBS_JOBNAME}
+structure -K ${PBS_ARRAYID} -i RUNNUMBER -o ${PBS_JOBNAME} -m ../bug-free-meme/mainparams -e ../bug-free-meme/extraparams
