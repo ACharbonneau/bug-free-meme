@@ -8,7 +8,7 @@ for i in `seq 1 20`; do tail -n +3 batch_20170205.structure.tsv | shuf >> R${i}_
 
 
 for i in `seq 1 22`
-    do less Random_STRUCTURE.qsub | sed s/RUNNUMBER/R${i}_batch_20170205.structure.tsv/ > withtemp.qsub
+    do less ../bug-free-meme/Random_STRUCTURE.qsub | sed s/RUNNUMBER/R${i}_batch_20170205.structure.tsv/ > withtemp.qsub
     
     qsub withtemp.qsub -N ${i}_STRUCTURE -t 1-22
 
