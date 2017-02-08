@@ -12,9 +12,7 @@ for i in `seq 1 20`
     
     qsub withtemp.qsub -N ${i}_STRUCTURE -t 3-22
     
-    less withtemp.qsub | sed s/36/144/ > withtempLong.qsub
-    
-    less withtempLong.qsub | sed s/1D/5D/ > withtempLong.qsub
+    less withtemp.qsub | sed s/36/144/ | sed s/1D/5D/ > withtempLong.qsub
     
     qsub withtempLong.qsub -N ${i}_STRUCTURE_Long -t 3-22
 
