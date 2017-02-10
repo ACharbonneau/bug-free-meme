@@ -1,0 +1,48 @@
+#!/bin/bash -login
+ 
+### define resources needed:
+### walltime - how long you expect the job to run
+#PBS -l walltime=24:00:00
+  
+### nodes:ppn - how many nodes & cores per node (ppn) that you require
+#PBS -l nodes=1:ppn=1
+### mem: amount of memory that the job will need
+#PBS -l mem=64gb
+
+#PBS -N notset
+if [ "$PBS_JOBNAME" == "notset" ]
+then
+    echo "please set the job name"
+    exit 1
+fi
+
+#setnumber=`echo ${PBS_JOBNAME} | sed s/(\d+)*+/\1/`
+#echo ${setnumber}
+# change to the working directory where your code is located
+cd ${PBS_O_WORKDIR}
+        
+        
+### call your executable
+module load treemix/1.12
+
+#  tail -n +2 batch_20170205.treemix > batch_20170205.treemix_nohead
+#  gzip batch_20170205.treemix_nohead
+#### Not using K flag because SNPs aren't ordered
+treemix -i batch_20170205.treemix_nohead.gz -root GMIL -o GMIL_out
+treemix -i batch_20170205.treemix_nohead.gz -bootstrap -o GMIL_B1
+
+treemix -i batch_20170205.treemix_nohead.gz -root GMIL -m 1 -o GMIL_M1_out
+treemix -i batch_20170205.treemix_nohead.gz -bootstrap -m 1 -o `GMIL_M1_B1
+
+treemix -i batch_20170205.treemix_nohead.gz -root GMIL -m 2 -o GMIL_M2_out
+treemix -i batch_20170205.treemix_nohead.gz -bootstrap -m 2 -o GMIL_M2_B1
+
+
+
+batch_20170205.treemix_nohead.gz
+
+tail -n +2 ${PBS_JOBNAME} > ${PBS_JOBNAME}_nohead
+
+gzip ${PBS_JOBNAME}_nohead
+
+treemix -i input ${PBS_JOBNAME}_nohead.gz -o out_stem
