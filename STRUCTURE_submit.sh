@@ -3,17 +3,11 @@
 #Launches 20 different randomizations of the dataset (seq 1 20) with a K of ( -t <number range>)		
 
 #Randomize Input files
-for i in `seq 1 20`; do head -2 batch_20170205.structure.tsv | tail -1 > R${i}_batch_20170205.structure.tsv; done
-for i in `seq 1 20`; do tail -n +3 batch_20170205.structure.tsv | shuf >> R${i}_batch_20170205.structure.tsv; done
+tail -n +2 batch_20170205.structure.tsv > nohead_batch_20170205.structure.tsv 
 
-
-for i in `seq 1 20`
-    do less ../bug-free-meme/Random_STRUCTURE.qsub | sed s/RUNNUMBER/R${i}_batch_20170205.structure.tsv/ > withtemp.qsub
     
-    qsub withtemp.qsub -N ${i}_STRUCTURE -t 3-22
-    
-    less withtemp.qsub | sed s/48/144/ | sed s/1D/5D/ > withtempLong.qsub
-    
-    qsub withtempLong.qsub -N ${i}_STRUCTURE_Long -t 3-22
+    qsub ../bug-free-meme/Random_STRUCTURE.qsub -N STRUCTURE -t 3-10
+        
+    qsub withtempLong.qsub -N STRUCTURE_Long -t 12-22
 
 done
