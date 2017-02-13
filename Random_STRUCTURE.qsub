@@ -2,7 +2,7 @@
  
 ### define resources needed:
 ### walltime - how long you expect the job to run
-#PBS -l walltime=48:00:00
+#PBS -l walltime=60:00:00
   
 ### nodes:ppn - how many nodes & cores per node (ppn) that you require
 #PBS -l nodes=1:ppn=1
@@ -26,3 +26,5 @@ cd ${PBS_O_WORKDIR}
 module load structure/2.3.4
 
 structure -K ${PBS_ARRAYID} -i nohead_batch_20170205.structure.tsv -o ${PBS_JOBNAME} -m ../bug-free-meme/mainparams1D -e ../bug-free-meme/extraparams
+
+qstat -f ${PBS_JOBID}
