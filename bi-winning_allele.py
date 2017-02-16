@@ -8,7 +8,7 @@ from collections import Counter
 
 def read_in_data(data_file,header_prefix):
     '''Description'''
-    sub_dict, SRR,unique_codes = {},{},{}
+    sub_dict, SSR,unique_codes = {},{},{}
     datastream = ['','0','NA','Na','na','.',' ']
     with open(data_file,'r') as f:
         for line in f:

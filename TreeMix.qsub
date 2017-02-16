@@ -37,6 +37,7 @@ treemix -i batch_20170205.treemix_nohead.gz -bootstrap -m 1 -o `GMIL_M1_B1
 treemix -i batch_20170205.treemix_nohead.gz -root GMIL -m 2 -o GMIL_M2_out
 treemix -i batch_20170205.treemix_nohead.gz -bootstrap -m 2 -o GMIL_M2_B1
 
+for i in `seq 1 10`; do treemix -i batch_20170206.treemix_nohead.gz -bootstrap -o AE_tree_${i}; done
 
 
 batch_20170205.treemix_nohead.gz

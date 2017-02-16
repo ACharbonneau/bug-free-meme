@@ -1,0 +1,70 @@
+---
+title: "Untitled"
+author: "Amanda Charbonneau"
+date: "2/7/2017"
+output: html_document
+---
+All trees are run with GMIL (R.pugiformis) as the outgroup. Pairs of plots show one run and one bootstrap replicate
+
+```{r setup, include=FALSE}
+rm( list=ls())
+source("plotting_funcs.R")
+```
+
+##GMIL as Root
+
+```{r, echo=FALSE, fig.keep='all', results='hide', warning=FALSE, fig.width=8}
+par(mfrow=c(1,2))
+plot_tree("../Analysis/TreeMix/GMIL_out")
+plot_tree("../Analysis/TreeMix/GMIL_B1")
+
+
+```
+
+
+###Residuals from GMIL as Root
+
+```{r, echo=FALSE, fig.keep='all', results='hide', warning=FALSE, fig.width=8}
+par(mfrow=c(1,2))
+
+plot_resid(stem = "../Analysis/TreeMix/GMIL_out", pop_order = "../Analysis/TreeMix/poporder.txt")
+
+plot_resid(stem = "../Analysis/TreeMix/GMIL_B1", pop_order = "../Analysis/TreeMix/poporder.txt")
+
+```
+
+
+##GMIL as Root, with 1 migration event allowed
+```{r, echo=FALSE, fig.keep='all', results='hide', warning=FALSE, fig.width=8}
+
+par(mfrow=c(1,2))
+plot_tree("../Analysis/TreeMix/GMIL_M1_out")
+plot_tree("../Analysis/TreeMix/GMIL_M1_B1")
+
+```
+
+###Residuals from GMIL as Root, with 1 migration event allowed
+```{r, echo=FALSE, fig.keep='all', results='hide', warning=FALSE, fig.width=8}
+par(mfrow=c(1,2))
+plot_resid(stem = "../Analysis/TreeMix/GMIL_M1_out", pop_order = "../Analysis/TreeMix/poporder.txt")
+
+plot_resid(stem = "../Analysis/TreeMix/GMIL_M1_B1", pop_order = "../Analysis/TreeMix/poporder.txt")
+
+```
+
+##GMIL as Root, with 2 migration events allowed
+```{r, echo=FALSE, fig.keep='all', results='hide', warning=FALSE, fig.width=8}
+par(mfrow=c(1,2))
+plot_tree("../Analysis/TreeMix/GMIL_M2_out")
+plot_tree("../Analysis/TreeMix/GMIL_M2_B1")
+
+
+```
+
+###GMIL as Root, with 2 migration events allowed
+```{r, echo=FALSE, fig.keep='all', results='hide', warning=FALSE, fig.width=8}
+par(mfrow=c(1,2))
+plot_resid(stem = "../Analysis/TreeMix/GMIL_M2_out", pop_order = "../Analysis/TreeMix/poporder.txt")
+plot_resid(stem = "../Analysis/TreeMix/GMIL_M2_B1", pop_order = "../Analysis/TreeMix/poporder.txt")
+
+```
