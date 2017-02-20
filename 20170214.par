@@ -1,0 +1,13 @@
+genotypename:    ../SmartPCA/20170214.geno
+snpname:         ../SmartPCA/20170214.snp
+indivname:       ../SmartPCA/20170214.ind
+evecoutname:     ../SmartPCA/20170214.evec
+evaloutname:     ../SmartPCA/20170214.eval
+altnormstyle:    NO 
+numoutevec:      1092
+familynames:     NO
+grmoutname:      ../SmartPCA/grmjunk
+snpweightoutname:	../SmartPCA/20170214.weights
+genotypeoutname:	../SmartPCA/20170214.badgeno
+snpoutname:	../SmartPCA/20170214.badsnp
+indivoutname:	../SmartPCA/20170214.badindiv

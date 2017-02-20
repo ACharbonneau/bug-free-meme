@@ -1,0 +1,13 @@
+genotypename:    ../SmartPCArep/20170214.geno
+snpname:         ../SmartPCArep/20170214rep.snp
+indivname:       ../SmartPCArep/20170214.ind
+evecoutname:     ../SmartPCArep/20170214rep.evec
+evaloutname:     ../SmartPCArep/20170214rep.eval
+altnormstyle:    NO 
+numoutevec:      20
+familynames:     NO
+grmoutname:      grmjunk
+snpweightoutname:	../SmartPCArep/20170214rep.weights
+genotypeoutname:	../SmartPCArep/20170214rep.badgeno
+snpoutname:	../SmartPCArep/20170214rep.badsnp
+indivoutname:	../SmartPCArep/20170214rep.badindiv

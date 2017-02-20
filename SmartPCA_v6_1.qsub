@@ -26,4 +26,7 @@ cd ${PBS_O_WORKDIR}
 module load Eigensoft/6.0.1
 ### call your executable
 
-smartpca.perl -i ${PBS_JOBNAME}.geno -a ${PBS_JOBNAME}.snp -b ${PBS_JOBNAME}.ind -o ${PBS_JOBNAME}.pca -p ${PBS_JOBNAME}.plot -e ${PBS_JOBNAME}.eval -l ${PBS_JOBNAME}.log
+smartpca -p 20170205.par > 20170205.log
+
+tail -n -2 20170205.evec
+find replace space with comma
