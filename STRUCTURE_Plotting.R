@@ -11,10 +11,11 @@ File_Num <- length(ALLTHEFILES) #+1
 
 
 for(krun in 1:File_Num){
-  
+
+kname <- krun  
 krun <- krun + 2
 
-str.data <- read.csv( paste("../STRUCTURE/parsed_data/STRUCTURE-", krun, "_f.parsed", sep=""), header=F)
+str.data <- read.csv( paste("../STRUCTURE/parsed_data/", ALLTHEFILES[kname], sep=""), header=F)
 
 pdf(file=paste("../figures/STRUCTURE_", krun,".pdf", sep=""), height=8, width=8)
 
@@ -28,7 +29,7 @@ str.data$Individual <- as.factor(regmatches(str.data$Individual, JustID))
 
 #Get the label/metadata about each individual from a seperate file. Join to remove all the "RA" and "NZIL" individuals
 
-labels <- read.csv("../Metadata/SigSelectionMeta.csv", colClasses = "factor")
+labels <- read.csv("../../Metadata/SigSelectionMeta.csv", colClasses = "factor")
 
 all.data <- left_join(str.data, labels, by=c("Individual" = "ID"))
 
