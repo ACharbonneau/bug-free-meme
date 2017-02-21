@@ -17,11 +17,12 @@ head -1 nohead_batch_20170214.structure.tsv > ${rep}_batch_20170214.structure.ts
 
 		sed "${next}q;d" nohead_batch_20170214.structure.tsv >> ${rep}_batch_20170214.structure.tsv
     
-    	qsub ../bug-free-meme/Random_STRUCTURE.qsub -N STRUCTURE -t 3-10 -v thisfile=${rep}_batch_20170214.structure.tsv
-        
-    	qsub ../bug-free-meme/Random_STRUCTURE_Long.qsub -N STRUCTURE -t 11-22 -v thisfile=${rep}_batch_20170214.structure.tsv
 
 	done
+    qsub ../bug-free-meme/Random_STRUCTURE.qsub -N STRUCTURE -t 3-10 -v thisfile=${rep}_batch_20170214.structure.tsv
+        
+    qsub ../bug-free-meme/Random_STRUCTURE_Long.qsub -N STRUCTURE -t 11-22 -v thisfile=${rep}_batch_20170214.structure.tsv
+
 done
     
 
