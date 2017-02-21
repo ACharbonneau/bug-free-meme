@@ -27,4 +27,3 @@ module load structure/2.3.4
 
 structure -K ${PBS_ARRAYID} -i ${thisfile} -o ${PBS_JOBNAME} -m ../bug-free-meme/mainparams4h -e ../bug-free-meme/extraparams
 
-qstat -f ${PBS_JOBID}

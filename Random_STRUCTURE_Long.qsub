@@ -25,6 +25,5 @@ cd ${PBS_O_WORKDIR}
 ### call your executable
 module load structure/2.3.4
 
-structure -K ${PBS_ARRAYID} -i nohead_batch_20170205.structure.tsv -o ${PBS_JOBNAME} -m ../bug-free-meme/mainparams1D -e ../bug-free-meme/extraparams
+structure -K ${PBS_ARRAYID} -i ${thisfile} -o ${PBS_JOBNAME} -m ../bug-free-meme/mainparams4h -e ../bug-free-meme/extraparams
 
-qstat -f ${PBS_JOBID}
