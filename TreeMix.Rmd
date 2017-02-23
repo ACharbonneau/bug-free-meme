@@ -1,10 +1,43 @@
 ---
-title: "Untitled"
+title: "TreeMix"
 author: "Amanda Charbonneau"
 date: "2/7/2017"
 output: html_document
 ---
-All trees are run with GMIL (R.pugiformis) as the outgroup. Pairs of plots show one run and one bootstrap replicate
+#Overview
+
+TreeMix is a Pickrell/Pritchard creation that uses large-scale SNP data to build trees that allow for migration between branches. It is philosophocially similar to the admixture algorithm of STRUCTURE, in that it tries to find independent groupings while acknowledging the reality that geneflow doesn't perfectly bifurcate. The trade-off with this approach is that the resulting tree has a (hopefully) more accurate topology, but doesn't infer time. The branch lengths are a measurement of how much 'drift' there is, that is, how differnt the allele frequencies are between populations. However, it tells you nothing about how long the populations have been seperated.
+
+The program builds a tree using some mathmatical magic that is analogous to the Bayes Theorem:
+
+- Assume that the base population had some set of allele frequencies, "A"
+- When that population evolves, the new populations' allele frequency must be mathmatically describable as "A + the change + some error", or A + W + e
+- In this way, you can build a theoretical tree, where each node is described in terms of the previous nodes, plus error.
+- To solve the tree, the algorithm essentially finds an answer that maximizes the joint probability of all the nodes. That is, it tries to arrange the populations in such a way that it simultanously minimizes the W parameters between all nodes.
+
+Once it chooses a base tree, the algorithm then adds migration events (if requested) in a step-wise manner:
+
+- The algorithm estimates the model fit to the tree and produces a table of residuals
+- The populations that have large residuals don't fit the model well, so those with the largest residuals get migration events first
+  - The population with the largest residual is identified
+  - A potential migration event is added between that population and every other one, one at a time
+  - The migration event that increases the overall likelihood of the tree the most is kept
+  - The overall tree is the tested with rearrangements local to the migration, and with the migration in both directions. The arrangement that increases the overall likelihood of the tree the most is kept
+  - This is repeated up to the total number of allowed migrations. Theoretically, you can allow migrations until the model runs out of residuals, but in practice, this would be stupid and destroy the tree-like structure.  
+
+
+#Caveats
+
+What all this means is that the model is predicated on the steps between populations being relatively small. The joint probability equation referenced above is solved using the variance-covariance matrix of the populations. Populations that co-vary more are more closely related, and vice-versa. 
+
+This also means that small population sizes, and drift, can break the model. Although the x-axis of a TreeMix plot is a "drift parameter", the algorithm can't actually deal well with drift in the population genetics sense. If a population is small enough that the allelle frequencies a a locus get close to the limits, that is, become 0 or 1, then those loci will have no co-variance, and will push small populations apart in the tree. Furthermore, loci that are fixed in the starting population (due to drift or selction), will be uninformative. Rare alleles will also have this effect.
+
+
+#Building trees with Signature of Selection populations
+
+All trees are run with GMIL and YEIL_CLNC (R.pugiformis) as the outgroup.
+
+#No Migration
 
 ```{r setup, include=FALSE}
 rm( list=ls())
@@ -15,9 +48,10 @@ source("plotting_funcs.R")
 
 ```{r, echo=FALSE, fig.keep='all', results='hide', warning=FALSE, fig.width=8}
 par(mfrow=c(1,2))
-plot_tree("../Analysis/TreeMix/GMIL_out")
-plot_tree("../Analysis/TreeMix/GMIL_B1")
+plot_tree("../TreeMix/SS_tree")
+plot_tree("../TreeMix/SS_tree_1")
 
+plot_tree("../TreeMix/SS_tree_Sumtree")
 
 ```
 
@@ -27,9 +61,9 @@ plot_tree("../Analysis/TreeMix/GMIL_B1")
 ```{r, echo=FALSE, fig.keep='all', results='hide', warning=FALSE, fig.width=8}
 par(mfrow=c(1,2))
 
-plot_resid(stem = "../Analysis/TreeMix/GMIL_out", pop_order = "../Analysis/TreeMix/poporder.txt")
+plot_resid(stem = "../TreeMix/SS_tree", pop_order = "poporder.txt")
 
-plot_resid(stem = "../Analysis/TreeMix/GMIL_B1", pop_order = "../Analysis/TreeMix/poporder.txt")
+plot_resid(stem = "../TreeMix/SS_tree_1", pop_order = "poporder.txt")
 
 ```
 
@@ -38,25 +72,25 @@ plot_resid(stem = "../Analysis/TreeMix/GMIL_B1", pop_order = "../Analysis/TreeMi
 ```{r, echo=FALSE, fig.keep='all', results='hide', warning=FALSE, fig.width=8}
 
 par(mfrow=c(1,2))
-plot_tree("../Analysis/TreeMix/GMIL_M1_out")
-plot_tree("../Analysis/TreeMix/GMIL_M1_B1")
+plot_tree("../TreeMix/SS_tree_M1")
+plot_tree("../TreeMix/SS_tree_M11")
 
 ```
 
 ###Residuals from GMIL as Root, with 1 migration event allowed
 ```{r, echo=FALSE, fig.keep='all', results='hide', warning=FALSE, fig.width=8}
 par(mfrow=c(1,2))
-plot_resid(stem = "../Analysis/TreeMix/GMIL_M1_out", pop_order = "../Analysis/TreeMix/poporder.txt")
+plot_resid(stem = "../TreeMix/SS_tree_M1", pop_order = "poporder.txt")
 
-plot_resid(stem = "../Analysis/TreeMix/GMIL_M1_B1", pop_order = "../Analysis/TreeMix/poporder.txt")
+plot_resid(stem = "../TreeMix/SS_tree_M11", pop_order = "poporder.txt")
 
 ```
 
 ##GMIL as Root, with 2 migration events allowed
 ```{r, echo=FALSE, fig.keep='all', results='hide', warning=FALSE, fig.width=8}
 par(mfrow=c(1,2))
-plot_tree("../Analysis/TreeMix/GMIL_M2_out")
-plot_tree("../Analysis/TreeMix/GMIL_M2_B1")
+plot_tree("../TreeMix/SS_tree_M2")
+plot_tree("../TreeMix/SS_tree_M21")
 
 
 ```
@@ -64,7 +98,7 @@ plot_tree("../Analysis/TreeMix/GMIL_M2_B1")
 ###GMIL as Root, with 2 migration events allowed
 ```{r, echo=FALSE, fig.keep='all', results='hide', warning=FALSE, fig.width=8}
 par(mfrow=c(1,2))
-plot_resid(stem = "../Analysis/TreeMix/GMIL_M2_out", pop_order = "../Analysis/TreeMix/poporder.txt")
-plot_resid(stem = "../Analysis/TreeMix/GMIL_M2_B1", pop_order = "../Analysis/TreeMix/poporder.txt")
+plot_resid(stem = "../TreeMix/SS_tree_M2", pop_order = "poporder.txt")
+plot_resid(stem = "../TreeMix/SS_tree_M21", pop_order = "poporder.txt")
 
 ```

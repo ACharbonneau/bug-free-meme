@@ -2,7 +2,7 @@
  
 ### define resources needed:
 ### walltime - how long you expect the job to run
-#PBS -l walltime=24:00:00
+#PBS -l walltime=4:00:00
   
 ### nodes:ppn - how many nodes & cores per node (ppn) that you require
 #PBS -l nodes=1:ppn=1
@@ -24,26 +24,40 @@ cd ${PBS_O_WORKDIR}
         
 ### call your executable
 module load treemix/1.12
+module load Python/2.7.2
+module load DendroPy/3.12.0
 
-#  tail -n +2 batch_20170205.treemix > batch_20170205.treemix_nohead
-#  gzip batch_20170205.treemix_nohead
+cp ../../../ProcessRadtags/BT2map/SigSelection/PopSTACKS/batch_20170214.treemix .
+tail -n +2 batch_20170214.treemix > batch_20170214.treemix_nohead
+gzip batch_20170214.treemix_nohead
+
 #### Not using K flag because SNPs aren't ordered
-treemix -i batch_20170205.treemix_nohead.gz -root GMIL -o GMIL_out
-treemix -i batch_20170205.treemix_nohead.gz -bootstrap -o GMIL_B1
 
-treemix -i batch_20170205.treemix_nohead.gz -root GMIL -m 1 -o GMIL_M1_out
-treemix -i batch_20170205.treemix_nohead.gz -bootstrap -m 1 -o `GMIL_M1_B1
+rm SS_tree.tre SS_tree_Sumtree.tre
 
-treemix -i batch_20170205.treemix_nohead.gz -root GMIL -m 2 -o GMIL_M2_out
-treemix -i batch_20170205.treemix_nohead.gz -bootstrap -m 2 -o GMIL_M2_B1
+treemix -i batch_20170214.treemix_nohead.gz -root GMIL,YEIL_CLNC -o SS_tree -global > SS_tree.log
+zcat SS_tree.treeout.gz > SS_tree_org.tre
 
-for i in `seq 1 10`; do treemix -i batch_20170206.treemix_nohead.gz -bootstrap -o AE_tree_${i}; done
+for i in `seq 1 1000`
+	do treemix -i batch_20170214.treemix_nohead.gz -root GMIL,YEIL_CLNC -global -bootstrap -o SS_tree_${i} > SS_tree_${i}.log
+	zcat SS_tree_${i}.treeout.gz >> SS_tree.tre
+	echo ";" >> SS_tree.tre
+done
+
+sumtrees.py --rooted --percentages -t SS_tree_org.tre -o SS_tree_Sumtree.tre SS_tree.tre > SS_tree_Sumtree.log
 
 
-batch_20170205.treemix_nohead.gz
 
-tail -n +2 ${PBS_JOBNAME} > ${PBS_JOBNAME}_nohead
 
-gzip ${PBS_JOBNAME}_nohead
 
-treemix -i input ${PBS_JOBNAME}_nohead.gz -o out_stem
+
+
+#treemix -i batch_20170214.treemix_nohead.gz -root GMIL,YEIL_CLNC -o SS_tree_M1 -global -m 1 > SS_tree_M1.log
+#
+#for i in `seq 1 10`; do treemix -i batch_20170214.treemix_nohead.gz -root GMIL,YEIL_CLNC -bootstrap -o SS_tree_M1_${i} -global -m 1 > SS_tree_M1_${i}.log; done
+#
+#treemix -i batch_20170214.treemix_nohead.gz -root GMIL,YEIL_CLNC -o SS_tree_M2 -global -m 2 > SS_tree_M2.log
+#
+#for i in `seq 1 10`; do treemix -i batch_20170214.treemix_nohead.gz -root GMIL,YEIL_CLNC -bootstrap -o SS_tree_M2_${i} -global -m 2 > SS_tree_M2_${i}.log; done
+#
+
