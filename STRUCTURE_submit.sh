@@ -19,9 +19,9 @@ head -1 nohead_batch_20170214.structure.tsv > ${rep}_batch_20170214.structure.ts
     
 
 	done
-    qsub ../bug-free-meme/Random_STRUCTURE.qsub -N ${rep}_STRUCTURE -t 3-7 -v thisfile=${rep}_batch_20170214.structure.tsv
+    qsub ../bug-free-meme/Random_STRUCTURE.qsub -N ${rep}_STRUCTURE -t 3-5 -v thisfile=${rep}_batch_20170214.structure.tsv
         
-    qsub ../bug-free-meme/Random_STRUCTURE_Long.qsub -N ${rep}_STRUCTURE -t 8-22 -v thisfile=${rep}_batch_20170214.structure.tsv
+    qsub ../bug-free-meme/Random_STRUCTURE_Long.qsub -N ${rep}_STRUCTURE -t 6-22 -v thisfile=${rep}_batch_20170214.structure.tsv
 
 done
     
