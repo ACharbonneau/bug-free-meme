@@ -46,18 +46,32 @@ done
 
 sumtrees.py --rooted --percentages -t SS_tree_org.tre -o SS_tree_Sumtree.tre SS_tree.tre > SS_tree_Sumtree.log
 
+rm SS_tree_M1.tre SS_tree_M1_Sumtree.tre
+
+treemix -i batch_20170214.treemix_nohead.gz -root GMIL,YEIL_CLNC -o SS_tree_M1 -global > SS_tree_M1.log
+zcat SS_tree_M1.treeout.gz > SS_tree_M1_org.tre
+
+for i in `seq 1 1000`
+	do treemix -i batch_20170214.treemix_nohead.gz -root GMIL,YEIL_CLNC -global -bootstrap -o SS_tree_M1_${i} > SS_tree_M1_${i}.log
+	zcat SS_tree_M1_${i}.treeout.gz >> SS_tree_M1.tre
+	echo ";" >> SS_tree_M1.tre
+done
+
+sumtrees.py --rooted --percentages -t SS_tree_M1_org.tre -o SS_tree_M1_Sumtree.tre SS_tree_M1.tre > SS_tree_M1_Sumtree.log
+
+rm SS_tree_M2.tre SS_tree_M2_Sumtree.tre
+
+treemix -i batch_20170214.treemix_nohead.gz -root GMIL,YEIL_CLNC -o SS_tree_M2 -global > SS_tree_M2.log
+zcat SS_tree_M2.treeout.gz > SS_tree_M2_org.tre
+
+for i in `seq 1 1000`
+	do treemix -i batch_20170214.treemix_nohead.gz -root GMIL,YEIL_CLNC -global -bootstrap -o SS_tree_M2_${i} > SS_tree_M2_${i}.log
+	zcat SS_tree_M2_${i}.treeout.gz >> SS_tree_M2.tre
+	echo ";" >> SS_tree_M2.tre
+done
+
+sumtrees.py --rooted --percentages -t SS_tree_M2_org.tre -o SS_tree_M2_Sumtree.tre SS_tree_M2.tre > SS_tree_M2_Sumtree.log
 
 
 
-
-
-
-#treemix -i batch_20170214.treemix_nohead.gz -root GMIL,YEIL_CLNC -o SS_tree_M1 -global -m 1 > SS_tree_M1.log
-#
-#for i in `seq 1 10`; do treemix -i batch_20170214.treemix_nohead.gz -root GMIL,YEIL_CLNC -bootstrap -o SS_tree_M1_${i} -global -m 1 > SS_tree_M1_${i}.log; done
-#
-#treemix -i batch_20170214.treemix_nohead.gz -root GMIL,YEIL_CLNC -o SS_tree_M2 -global -m 2 > SS_tree_M2.log
-#
-#for i in `seq 1 10`; do treemix -i batch_20170214.treemix_nohead.gz -root GMIL,YEIL_CLNC -bootstrap -o SS_tree_M2_${i} -global -m 2 > SS_tree_M2_${i}.log; done
-#
 
