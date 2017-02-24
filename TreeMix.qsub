@@ -27,45 +27,52 @@ module load treemix/1.12
 module load Python/2.7.2
 module load DendroPy/3.12.0
 
-cp ../../../ProcessRadtags/BT2map/SigSelection/PopSTACKS/batch_20170214.treemix .
+cp ../../ProcessRadtags/BT2map/SigSelection/PopSTACKS/batch_20170214.treemix .
 tail -n +2 batch_20170214.treemix > batch_20170214.treemix_nohead
 gzip batch_20170214.treemix_nohead
 
 #### Not using K flag because SNPs aren't ordered
 
+cd nomigration
+
 rm SS_tree.tre SS_tree_Sumtree.tre
 
-treemix -i batch_20170214.treemix_nohead.gz -root GMIL,YEIL_CLNC -o SS_tree -global > SS_tree.log
+treemix -i ../batch_20170214.treemix_nohead.gz -root GMIL,YEIL_CLNC -o SS_tree -global > SS_tree.log
 zcat SS_tree.treeout.gz > SS_tree_org.tre
 
 for i in `seq 1 1000`
-	do treemix -i batch_20170214.treemix_nohead.gz -root GMIL,YEIL_CLNC -global -bootstrap -o SS_tree_${i} > SS_tree_${i}.log
+	do treemix -i ../batch_20170214.treemix_nohead.gz -root GMIL,YEIL_CLNC -global -bootstrap -o SS_tree_${i} > SS_tree_${i}.log
 	zcat SS_tree_${i}.treeout.gz >> SS_tree.tre
 	echo ";" >> SS_tree.tre
 done
+
+cd ../onemigration
 
 sumtrees.py --rooted --percentages -t SS_tree_org.tre -o SS_tree_Sumtree.tre SS_tree.tre > SS_tree_Sumtree.log
 
 rm SS_tree_M1.tre SS_tree_M1_Sumtree.tre
 
-treemix -i batch_20170214.treemix_nohead.gz -root GMIL,YEIL_CLNC -o SS_tree_M1 -global > SS_tree_M1.log
+treemix -i ../batch_20170214.treemix_nohead.gz -root GMIL,YEIL_CLNC -o SS_tree_M1 -global > SS_tree_M1.log
 zcat SS_tree_M1.treeout.gz > SS_tree_M1_org.tre
 
 for i in `seq 1 1000`
-	do treemix -i batch_20170214.treemix_nohead.gz -root GMIL,YEIL_CLNC -global -bootstrap -o SS_tree_M1_${i} > SS_tree_M1_${i}.log
+	do treemix -i ../batch_20170214.treemix_nohead.gz -root GMIL,YEIL_CLNC -global -bootstrap -o SS_tree_M1_${i} > SS_tree_M1_${i}.log
 	zcat SS_tree_M1_${i}.treeout.gz >> SS_tree_M1.tre
 	echo ";" >> SS_tree_M1.tre
 done
 
 sumtrees.py --rooted --percentages -t SS_tree_M1_org.tre -o SS_tree_M1_Sumtree.tre SS_tree_M1.tre > SS_tree_M1_Sumtree.log
 
+cd ../twomigration
+
+
 rm SS_tree_M2.tre SS_tree_M2_Sumtree.tre
 
-treemix -i batch_20170214.treemix_nohead.gz -root GMIL,YEIL_CLNC -o SS_tree_M2 -global > SS_tree_M2.log
+treemix -i ../batch_20170214.treemix_nohead.gz -root GMIL,YEIL_CLNC -o SS_tree_M2 -global > SS_tree_M2.log
 zcat SS_tree_M2.treeout.gz > SS_tree_M2_org.tre
 
 for i in `seq 1 1000`
-	do treemix -i batch_20170214.treemix_nohead.gz -root GMIL,YEIL_CLNC -global -bootstrap -o SS_tree_M2_${i} > SS_tree_M2_${i}.log
+	do treemix -i ../batch_20170214.treemix_nohead.gz -root GMIL,YEIL_CLNC -global -bootstrap -o SS_tree_M2_${i} > SS_tree_M2_${i}.log
 	zcat SS_tree_M2_${i}.treeout.gz >> SS_tree_M2.tre
 	echo ";" >> SS_tree_M2.tre
 done
