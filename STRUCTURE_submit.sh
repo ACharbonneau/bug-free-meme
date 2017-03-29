@@ -5,7 +5,7 @@
 BATCH="batch_20170329.structure.tsv"
 
 #Randomize Input files
-tail -n +2 batch_${BATCH} > nohead_${BATCH}
+tail -n +2 ${BATCH} > nohead_${BATCH}
 
 for rep in `seq 1 20`
 do seq 2 2 517 | shuf > ${rep}_random.txt
