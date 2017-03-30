@@ -23,8 +23,8 @@ Input/Output files
 
 Data file format
 
-#define NUMINDS    259    // (int) number of diploid individuals in data file
-#define NUMLOCI     412   // (int) number of loci in data file
+#define NUMINDS    INDIVIDUALSGOHERE    // (int) number of diploid individuals in data file
+#define NUMLOCI     MARKERSGOHERE   // (int) number of loci in data file
 #define PLOIDY       2    // (int) ploidy of data
 #define MISSING     -9    // (int) value given to missing genotype data
 #define ONEROWPERIND 0    // (B) store data for individuals in a single line
