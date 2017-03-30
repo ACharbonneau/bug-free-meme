@@ -12,8 +12,8 @@ INDIVIDS=$(cat nohead_${BATCH} | wc -l )
 
 MARKERS=$(head -2 ${BATCH} | tail -1 | wc -w)
 
-sed -i s/INDIVIDUALSGOHERE/${INDIVIDS}/ ../bug-free-meme/mainparams4h
-sed -i s/MARKERSGOHERE/${INDIVIDS}/ ../bug-free-meme/mainparams4h
+sed s/INDIVIDUALSGOHERE/${INDIVIDS}/ ../bug-free-meme/mainparams4h > mainparams
+sed -i s/MARKERSGOHERE/${INDIVIDS}/ mainparams
 
 
 for rep in `seq 1 20`
