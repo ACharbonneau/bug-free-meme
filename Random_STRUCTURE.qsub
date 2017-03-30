@@ -1,9 +1,9 @@
 #!/bin/bash -login
- 
+
 ### define resources needed:
 ### walltime - how long you expect the job to run
 #PBS -l walltime=04:00:00
-  
+
 ### nodes:ppn - how many nodes & cores per node (ppn) that you require
 #PBS -l nodes=1:ppn=1
 ### mem: amount of memory that the job will need
@@ -20,10 +20,9 @@ fi
 #echo ${setnumber}
 # change to the working directory where your code is located
 cd ${PBS_O_WORKDIR}
-        
-        
+
+
 ### call your executable
 module load structure/2.3.4
 
-structure -K ${PBS_ARRAYID} -i ${thisfile} -o ${PBS_JOBNAME} -m ../bug-free-meme/mainparams4h -e ../bug-free-meme/extraparams
-
+structure -K ${PBS_ARRAYID} -i ${thisfile} -o ${PBS_JOBNAME} -m mainparams -e ../bug-free-meme/extraparams
